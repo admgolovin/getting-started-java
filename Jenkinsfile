@@ -11,7 +11,10 @@ pipeline{
             }
         }
         stage('Test'){
-            sh 'echo "Here I will make some tests"'
+            agent any
+            steps{
+                echo "Here I will make some tests"
+            }  
         }
     }
 }
