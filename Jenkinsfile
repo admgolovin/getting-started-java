@@ -4,9 +4,10 @@ pipeline{
         stage('Build'){
             agent {
                 docker {image 'maven:3.6.0-jdk-11-slim' } 
-            } 
+            }
+            echo "Build stage is launched" 
             steps{
-                echo "Im building"
+                sh "echo 'Im building'"
                 sh "maven -v"
             }
         }
