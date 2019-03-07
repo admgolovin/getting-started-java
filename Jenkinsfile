@@ -1,10 +1,17 @@
 pipeline{
     agent any
-    stages{
-        stage('Printer'){
+    stages {
+        stage('Build'){
+            agent {
+                docker {image 'maven:3.6.0-jdk-11-slim' } 
+            } 
             steps{
-                echo "Hello world!"
+                echo "Im building"
+                sh "maven -v"
             }
+        }
+        stage('Test'){
+            echo "Here I will make some tests"
         }
     }
 }
