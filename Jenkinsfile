@@ -49,8 +49,10 @@ spec:
 
         stage ('checkout') {
             steps{
-                def mycommit = checkout scm
-                print "${mycommit}"
+                script{
+                    def mycommit = checkout scm
+                    print "${mycommit}"
+                }
             }
         }
         stage ('compile') {
