@@ -64,7 +64,8 @@ spec:
             steps {
                 container('maven') {
                     sh 'ls -a'
-                    sh 'cd helloworld-springboot'
+                    sh 'cd cd helloworld-springboot/'
+                    sh 'ls -a'
                     sh 'mvn clean compile test-compile'
                 }
             }
