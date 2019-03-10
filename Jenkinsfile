@@ -50,6 +50,7 @@ spec:
         stage ('checkout') {
             steps{
                 script{
+                    print "Checkout stage is launched"
                     def mycommit = checkout scm
                     for (val in mycommit) {
                         print "key = ${val.key}, value = ${val.value}"
