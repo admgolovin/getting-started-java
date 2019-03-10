@@ -17,7 +17,7 @@ metadata:
 spec:
   containers:
   - name: maven
-    image: maven:3.6.0-jdk-11-slim
+    image: maven:3.6-jdk-8-slim
     command: ["cat"]
     tty: true
     volumeMounts:
