@@ -53,6 +53,7 @@ spec:
                     def mycommit = checkout scm
                     for (val in mycommit) {
                         print "key = ${val.key}, value = ${val.value}"
+                    revision = sh(script: 'git log -1 --format=\'%h.%ad\' --date=format:%Y%m%d-%H%M | cat', returnStdout: true).trim()
 
                     }
                 }
@@ -81,30 +82,19 @@ spec:
                 }
             }
         }
-        stage ('build artifact') {
+        stage ('build and push artifact') {
             steps {
                 container('maven') {
                     sh "mvn package -Dmaven.test.skip -Drevision=${revision}"
                 }
                 container('docker') {
                     script {
-                        registryIp = sh(script: 'getent hosts registry.kube-system | awk \'{ print $1 ; exit }\'', returnStdout: true).trim()
+                        registryIp= "https://818353068367.dkr.ecr.eu-central-1.amazonaws.com/tony"
+           
                         sh "docker build . -t ${registryIp}/demo/app:${revision} --build-arg REVISION=${revision}"
+             
+                        sh "docker push ${registryIp}/demo/app:${revision}"
                     }
                 }
             }
         }
-        stage ('publish artifact') {
-            when {
-                expression {
-                    branch == 'master'
-                }
-            }
-            steps {
-                container('docker') {
-                    sh "docker push ${registryIp}/demo/app:${revision}"
-                }
-            }
-        }
-    }
-}
