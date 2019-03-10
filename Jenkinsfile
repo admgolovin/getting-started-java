@@ -43,7 +43,7 @@ spec:
     options {
         skipDefaultCheckout true
     }
-
+    stages ('Tests'){
         stage ('compile') {
             steps {
                 container('maven') {
@@ -91,4 +91,4 @@ spec:
             }
         }
     }
-
+}
