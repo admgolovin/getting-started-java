@@ -51,7 +51,10 @@ spec:
             steps{
                 script{
                     def mycommit = checkout scm
-                    print "My commit information: ${mycommit}"
+                    for (val in mycommit) {
+                        print "key = ${val.key}, value = ${val.value}"
+
+                    }
                 }
             }
         }
