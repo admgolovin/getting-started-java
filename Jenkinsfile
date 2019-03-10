@@ -60,34 +60,6 @@ spec:
                 }
             }
         }
-        stage ('compile') {
-            steps {
-                container('maven') {
-                    sh 'ls -a'
-                    sh 'cd helloworld-springboot/'
-                    sh 'ls -a'
-                    sh 'mvn clean compile test-compile'
-                }
-            }
-        }
-        stage ('unit test') {
-            steps {
-                container('maven') {
-                    sh 'ls -a'
-                    sh 'cd helloworld-springboot/'
-                    sh 'mvn test'
-                }
-            }
-        }
-        stage ('integration test') {
-            steps {
-                container ('maven') {
-                    sh 'ls -a'
-                    sh 'cd helloworld-springboot/'
-                    sh 'mvn verify'
-                }
-            }
-        }
         stage ('build and push artifact') {
             steps {
                 container('maven') {
@@ -95,11 +67,12 @@ spec:
                     sh 'cd helloworld-springboot/'
                     sh "mvn package -Dmaven.test.skip -Drevision=${revision}"
                 }
+        }
                 container('docker') {
                     script {
-                        registryIp= "https://818353068367.dkr.ecr.eu-central-1.amazonaws.com/tony"
+                        registryIp= "818353068367.dkr.ecr.eu-central-1.amazonaws.com/tony"
            
-                        sh "docker build . -t ${registryIp}/demo/app:${revision} --build-arg REVISION=${revision}"
+                        sh "docker build . -t ${registryIp}:${revision} --build-arg REVISION=${revision}"
              
                         sh "docker push ${registryIp}/demo/app:${revision}"
                     }
