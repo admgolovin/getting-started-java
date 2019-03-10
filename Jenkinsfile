@@ -64,7 +64,7 @@ spec:
             steps {
                 container('maven') {
                     sh 'ls -a'
-                    sh 'cd cd helloworld-springboot/'
+                    sh 'cd helloworld-springboot/'
                     sh 'ls -a'
                     sh 'mvn clean compile test-compile'
                 }
@@ -74,12 +74,16 @@ spec:
             steps {
                 container('maven') {
                     sh 'mvn test'
+                    sh 'ls -a'
+                    sh 'cd helloworld-springboot/'
                 }
             }
         }
         stage ('integration test') {
             steps {
                 container ('maven') {
+                    sh 'ls -a'
+                    sh 'cd helloworld-springboot/'
                     sh 'mvn verify'
                 }
             }
@@ -87,6 +91,8 @@ spec:
         stage ('build and push artifact') {
             steps {
                 container('maven') {
+                    sh 'ls -a'
+                    sh 'cd helloworld-springboot/'
                     sh "mvn package -Dmaven.test.skip -Drevision=${revision}"
                 }
                 container('docker') {
