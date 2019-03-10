@@ -47,6 +47,7 @@ spec:
         stage ('compile') {
             steps {
                 container('maven') {
+                    sh 'ls -a'
                     sh 'mvn clean compile test-compile'
                 }
             }
