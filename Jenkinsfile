@@ -51,7 +51,7 @@ spec:
             steps{
                 script{
                     def mycommit = checkout scm
-                    print "${mycommit}"
+                    print "My commit information: ${mycommit}"
                 }
             }
         }
