@@ -43,7 +43,16 @@ spec:
     options {
         skipDefaultCheckout true
     }
+
+
     stages ('Tests'){
+
+        stage ('checkout') {
+            steps{
+                def mycommit = checkout scm
+                print "${mycommit}"
+            }
+        }
         stage ('compile') {
             steps {
                 container('maven') {
