@@ -44,22 +44,6 @@ spec:
         skipDefaultCheckout true
     }
 
-    stages {
-        stage ('checkout') {
-            steps {
-                script {
-                    def repo = checkout scm
-                    sh "echo ${repo}"
-                    revision = sh(script: 'git log -1 --format=\'%h.%ad\' --date=format:%Y%m%d-%H%M | cat', returnStdout: true).trim()
-                    branch = repo.GIT_BRANCH.take(20).replaceAll('/', '_')
-                    if (branch != 'master') {
-                        revision += "-${branch}"
-                    }
-                    sh "echo 'Building revision: ${revision}'"
-                }
-            }
-
-        }
         stage ('compile') {
             steps {
                 container('maven') {
