@@ -73,9 +73,9 @@ spec:
         stage ('unit test') {
             steps {
                 container('maven') {
-                    sh 'mvn test'
                     sh 'ls -a'
                     sh 'cd helloworld-springboot/'
+                    sh 'mvn test'
                 }
             }
         }
