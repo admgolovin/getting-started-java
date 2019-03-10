@@ -73,7 +73,7 @@ spec:
            
                         sh "docker build . -t ${registryIp}:${revision} --build-arg REVISION=${revision}"
              
-                        sh "docker push ${registryIp}/demo/app:${revision}"
+                        sh "docker push ${registryIp}:${revision}"
                     }
                 }
             }
