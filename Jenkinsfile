@@ -69,7 +69,7 @@ spec:
                 }
                 container('docker') {
                     script {
-                        docker.withRegistry("https://818353068367.dkr.ecr.eu-central-1.amazonaws.com", "ecr:antons-aws") {
+                        docker.withRegistry("https://818353068367.dkr.ecr.eu-central-1.amazonaws.com", "ecr:eu-central-1:antons-aws") {
                             registryIp= "818353068367.dkr.ecr.eu-central-1.amazonaws.com/tony"
                         
                             sh "ls -a"
