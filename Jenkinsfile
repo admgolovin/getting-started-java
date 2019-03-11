@@ -72,15 +72,23 @@ spec:
                         registryIp= "818353068367.dkr.ecr.eu-central-1.amazonaws.com/tony"
                         sh "docker build . -t ${registryIp}:${revision} --build-arg REVISION=${revision}"
                     }
+                }
+            }
+        }    
+        stage ('Push image to ecr'){
+            steps {
+                container('docker'){
                     docker.withRegistry("https://818353068367.dkr.ecr.eu-central-1.amazonaws.com", "ecr:eu-central-1:antons-aws") {
                         
                         sh "docker push ${registryIp}:${revision}"
                         docker.image("${registryIp}").push("${revision}")
-                        
-                        }
                     }
+                        
                 }
+
             }
-        }
+        }            
+
     }
+}
 
