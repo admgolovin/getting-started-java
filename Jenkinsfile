@@ -30,6 +30,18 @@ spec:
     volumeMounts:
     - name: docker-sock
       mountPath: /var/run/docker.sock
+    resources:
+         limits:
+        memory: "200Mi"
+      requests:
+        memory: "100Mi"
+      limits:
+        cpu: "2"
+        memory: "1000Mi"  
+      requests:
+        cpu: "1"
+        memory: "800Mi"
+
   volumes:
   - name: repository
     persistentVolumeClaim:
@@ -77,14 +89,10 @@ spec:
         }    
         stage ('Push image to ecr'){
             steps {
-                script{
-                    container('docker'){
-                        docker.withRegistry("https://818353068367.dkr.ecr.eu-central-1.amazonaws.com", "ecr:eu-central-1:antons-aws") {
-              
-                            sh "docker push ${registryIp}:${revision}"
-                            docker.image("${registryIp}").push("${revision}")
-                        }
-                    }
+                docker.withRegistry("https://818353068367.dkr.ecr.eu-central-1.amazonaws.com", "ecr:eu-central-1:antons-aws") {
+                        
+                    sh "docker push ${registryIp}:${revision}"
+                    docker.image("${registryIp}").push("${revision}")
                         
                 }
 
@@ -93,4 +101,3 @@ spec:
 
     }
 }
-
