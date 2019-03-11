@@ -89,7 +89,7 @@ spec:
         }    
         stage ('Push image to ecr'){
             steps {
-                container {
+                container('docker') {
                     script{
                         docker.withRegistry("https://818353068367.dkr.ecr.eu-central-1.amazonaws.com", "ecr:eu-central-1:antons-aws") {
                             sh "docker push ${registryIp}:${revision}"
