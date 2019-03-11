@@ -22,7 +22,7 @@ spec:
     tty: true
     resources:
       requests:
-        ephemeral-storage: "1Gi"
+        ephemeral-storage: "100Mi"
       limits:
         ephemeral-storage: "2Gi"
     volumeMounts:
@@ -37,14 +37,9 @@ spec:
       mountPath: /var/run/docker.sock
     resources:
       limits:
-        cpu: "2"
-        memory: "1000Mi"
-        ephemeral-storage: "1Gi"
-      requests:
-        cpu: "1"
-        memory: "800Mi"
         ephemeral-storage: "2Gi"
-
+      requests:
+        ephemeral-storage: "100Mi"
   volumes:
   - name: repository
     persistentVolumeClaim:
