@@ -75,7 +75,7 @@ spec:
                         
                         sh "sleep 5m"
                         
-                        sh 'cd helloworld-springboot/'
+                        sh "cd helloworld-springboot/"
                         
                         sh "ls -a"
            
