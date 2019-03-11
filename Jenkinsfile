@@ -7,7 +7,6 @@ pipeline {
     agent {
         kubernetes {
             label 'build-service-pod'
-            defaultContainer 'jnlp'
             yaml """
 apiVersion: v1
 kind: Pod
@@ -16,6 +15,19 @@ metadata:
     job: build-service
 spec:
   containers:
+  - name: jnlp
+    image: jenkins/jnlp-slave:alpine
+    volumeMounts:
+    - mountPath: /home/jenkins
+      name: workspace-volume
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-cd85g
+      readOnly: true
+    resources:  
+      requests:
+        ephemeral-storage: "100Mi"
+      limits:
+        ephemeral-storage: "2Gi"
   - name: maven
     image: maven:3.6-jdk-8-slim
     command: ["cat"]
@@ -40,6 +52,7 @@ spec:
         ephemeral-storage: "2Gi"
       requests:
         ephemeral-storage: "100Mi"
+
   volumes:
   - name: repository
     persistentVolumeClaim:
@@ -91,4 +104,3 @@ spec:
         }    
     }
 }
- 
