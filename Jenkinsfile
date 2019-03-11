@@ -20,6 +20,11 @@ spec:
     image: maven:3.6-jdk-8-slim
     command: ["cat"]
     tty: true
+    resources:
+      requests:
+        ephemeral-storage: "1Gi"
+      limits:
+        ephemeral-storage: "2Gi"
     volumeMounts:
     - name: repository
       mountPath: /root/.m2/repository
@@ -33,10 +38,12 @@ spec:
     resources:
       limits:
         cpu: "2"
-        memory: "1000Mi"  
+        memory: "1000Mi"
+        ephemeral-storage: "1Gi"
       requests:
         cpu: "1"
         memory: "800Mi"
+        ephemeral-storage: "2Gi"
 
   volumes:
   - name: repository
@@ -87,5 +94,4 @@ spec:
             }
         }    
     }
-}
 }
