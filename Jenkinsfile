@@ -101,6 +101,11 @@ spec:
                     }
                 }
             }
-        }    
+        }
+        stage ('clean workspace'){
+            steps{
+                cleanWs()
+            }
+        }
     }
 }
