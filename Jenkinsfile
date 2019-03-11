@@ -73,6 +73,8 @@ spec:
                         
                         sh "ls -a"
                         
+                        sh "sleep 5m"
+                        
                         sh 'cd helloworld-springboot/'
                         
                         sh "ls -a"
