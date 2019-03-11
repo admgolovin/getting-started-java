@@ -70,6 +70,8 @@ spec:
                 container('docker') {
                     script {
                         registryIp= "818353068367.dkr.ecr.eu-central-1.amazonaws.com/tony"
+                        
+                        sh "ls -a"
            
                         sh "docker build . -t ${registryIp}:${revision} --build-arg REVISION=${revision}"
              
