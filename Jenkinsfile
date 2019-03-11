@@ -69,17 +69,19 @@ spec:
                 }
                 container('docker') {
                     script {
-                        registryIp= "818353068367.dkr.ecr.eu-central-1.amazonaws.com/tony"
+                        docker.withRegistry("https://818353068367.dkr.ecr.eu-central-1.amazonaws.com", "ecr:eu-central-1:antons-aws") {
+                            registryIp= "818353068367.dkr.ecr.eu-central-1.amazonaws.com/tony"
                         
-                        sh "ls -a"
+                            sh "ls -a"
                         
-                        sh "cd helloworld-springboot/"
+                            sh "cd helloworld-springboot/"
                         
-                        sh "ls -a"
+                            sh "ls -a"
            
-                        sh "docker build . -t ${registryIp}:${revision} --build-arg REVISION=${revision}"
+                            sh "docker build . -t ${registryIp}:${revision} --build-arg REVISION=${revision}"
              
-                        sh "docker push ${registryIp}:${revision}"
+                            sh "docker push ${registryIp}:${revision}"
+                        }
                     }
                 }
             }
