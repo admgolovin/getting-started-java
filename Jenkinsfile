@@ -144,7 +144,8 @@ spec:
             }
 
             container ('envsubst') {
-              sh "export rnumber=${revision}"
+              sh "export rnumber='${revision}'"
+              sh "echo $rnumber"
               sh "ls -a"
               sh "envsubst < getting-started-java/helloworld-springboot/MyApp/values.yaml > values.yaml"
               sh "cat values.yaml"
@@ -155,6 +156,7 @@ spec:
               sh "ls -a"            
               sh "env"
               sh "cat getting-started-java/helloworld-springboot/MyApp/values.yaml"
+              sh "helm --help"
               sh "helm install getting-started-java/helloworld-springboot/MyApp/"
             }
           }
