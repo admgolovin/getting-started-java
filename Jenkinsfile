@@ -144,6 +144,7 @@ spec:
             }
 
             container ('envsubst') {
+              sh "ls -a"
               sh "cd getting-started-java/helloworld-springboot"
               sh "ls -a"
               sh "envsubst < MyApp/values.yaml > values.yaml"
