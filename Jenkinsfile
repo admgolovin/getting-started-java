@@ -124,16 +124,16 @@ spec:
     command: ["cat"]
     tty: true
   - name: helm-cli
-    image: ibmcom/k8s-helm:v2.6.0
-    env:
-    - name: rnumber
-      value: ${revision}
+    image: linkyard/docker-helm
     command: ["cat"]
     tty: true
   - name: envsubst
     image: bhgedigital/envsubst
     command: ["cat"]
     tty: true
+    env:
+    - name: rnumber
+      value: ${revision}
 """
           }
         }
@@ -144,8 +144,7 @@ spec:
             }
 
             container ('envsubst') {
-              sh "export rnumber='${revision}'"
-              sh "echo $rnumber"
+              sh "env"
               sh "ls -a"
               sh "envsubst < getting-started-java/helloworld-springboot/MyApp/values.yaml > values.yaml"
               sh "cat values.yaml"
