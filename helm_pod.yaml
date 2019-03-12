@@ -7,8 +7,8 @@ metadata:
 spec:
   containers:
   - name: helm-pod-container
-    image: alpine/helm:latest
-    command: ["sh", "-c", "cat"]
+    image: lachlanevenson/k8s-helm:latest
+    # command: ["sh", "-c", "cat"]
     volumeMounts:
     - mountPath: ~/MyApp/
       name: myapp

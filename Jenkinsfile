@@ -110,34 +110,44 @@ spec:
           agent{
             kubernetes{
               label 'helm-chart-pod'
+              defaultContainer 'jnlp'
               yaml """
 apiVersion: v1
 kind: Pod
 metadata:
-  name: helm-pod
   labels:
-    job: helm-chart-pod
+    job: deploy-service
 spec:
   containers:
-  - name: helm-pod-container
-    image: alpine/helm:latest
-    command: ["sh", "-c", "cat"]
+  - name: git
+    image: alpine/git
+    command: ["cat"]
+    tty: true
+  - name: helm-cli
+    image: ibmcom/k8s-helm:v2.6.0
     env:
     - name: rnumber
       value: ${revision}
+    command: ["cat"]
+    tty: true
 """
-
 
           }
         }
           steps{
-            script{
-              checkout scm
-            }
-            container('helm-pod-container'){
+            container('git'){
+              sh "git clone https://github.com/admgolovin/getting-started-java"
               sh "ls -a"
-              sh "cd .. | ls -a"
+            }
+            container('helm-cli'){
+              sh "ls -a"
               sh "env"
+              dir('getting-started-java/helloworld-springboot'){
+                sh "envsubst < MyApp/values.yaml > values.yaml"
+                sh "cat values.yaml"
+                sh "cp values.yaml MyApp/values.yaml"
+                sh "helm install MyApp"
+              }
             }
           }
         }
