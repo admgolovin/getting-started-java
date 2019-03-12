@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: helm-pod
+  labels:
+    job: helm-chart-pod
+spec:
+  containers:
+  - name: helm-pod-container
+    image: alpine/helm:latest
+    command: ["sh", "-c", "cat"]
+    volumeMounts:
+    - mountPath: ~/MyApp/
+      name: myapp
+    env:
+    - name: rnumber
+      value: "7686af6.20190312-1554"
+  volumes:
+  - name: myapp
+    hostPath:
+      path: /Users/aholovi/Downloads/MyApp
+  
+  #   volumeMounts:
+  #   - mountPath: /home/jenkins
+  #     name: workspace-volume
+  #   - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+  #     name: default-token-cd85g
+  #     readOnly: true
+  # volumes:
+  # - name: repository
+  #   persistentVolumeClaim:
+  #     claimName: repository
+  # - name: docker-sock
+  #   hostPath:
+  #     path: /var/run/docker.sock

@@ -106,5 +106,40 @@ spec:
                 cleanWs()
             }
         }
+        stage ('Deploy artifact to production'){
+          agent{
+            kubernetes{
+              label 'helm-chart-pod'
+              yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  name: helm-pod
+  labels:
+    job: helm-chart-pod
+spec:
+  containers:
+  - name: helm-pod-container
+    image: alpine/helm:latest
+    command: ["sh", "-c", "cat"]
+    env:
+    - name: rnumber
+      value: ${revision}
+"""
+
+
+          }
+        }
+          steps{
+            script{
+              checkout scm
+            }
+            container('helm-pod-container'){
+              sh "ls -a"
+              sh "cd .. | ls -a"
+              sh "env"
+            }
+          }
+        }
     }
 }
