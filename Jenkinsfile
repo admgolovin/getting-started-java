@@ -147,8 +147,7 @@ spec:
               sh "envsubst < MyApp/values.yaml > values.yaml"
               sh "cat values.yaml"
               sh "cp values.yaml MyApp/values.yaml"
-              sh "helm install MyApp"
-              }
+              sh "helm install MyApp"              
             }
           }
         }
