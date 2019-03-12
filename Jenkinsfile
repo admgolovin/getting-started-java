@@ -130,8 +130,11 @@ spec:
       value: ${revision}
     command: ["cat"]
     tty: true
+  - name: envsubst
+    image: bhgedigital/envsubst
+    command: ["cat"]
+    tty: true
 """
-
           }
         }
           steps{
@@ -139,15 +142,20 @@ spec:
               sh "git clone https://github.com/admgolovin/getting-started-java"
               sh "ls -a"
             }
-            container('helm-cli'){
-              sh "ls -a"
-              sh "env"
-              sh "export rnumber=${revision}"
+
+            container ('envsubst') {
               sh "cd getting-started-java/helloworld-springboot"
+              sh "ls -a"
               sh "envsubst < MyApp/values.yaml > values.yaml"
               sh "cat values.yaml"
               sh "cp values.yaml MyApp/values.yaml"
-              sh "helm install MyApp"              
+            }
+
+            container('helm-cli'){
+              sh "ls -a"            
+              sh "export rnumber=${revision}"
+              sh "env"
+              sh "helm install MyApp"
             }
           }
         }
