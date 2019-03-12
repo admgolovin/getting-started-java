@@ -145,18 +145,17 @@ spec:
 
             container ('envsubst') {
               sh "ls -a"
-              sh "cd getting-started-java/helloworld-springboot"
-              sh "ls -a"
-              sh "envsubst < MyApp/values.yaml > values.yaml"
+              sh "envsubst < getting-started-java/helloworld-springboot/MyApp/values.yaml > values.yaml"
               sh "cat values.yaml"
-              sh "cp values.yaml MyApp/values.yaml"
+              sh "cp values.yaml getting-started-java/helloworld-springboot/MyApp/values.yaml"
             }
 
             container('helm-cli'){
               sh "ls -a"            
               sh "export rnumber=${revision}"
               sh "env"
-              sh "helm install MyApp"
+              sh "cat getting-started-java/helloworld-springboot/MyApp/values.yaml"
+              sh "helm install getting-started-java/helloworld-springboot/MyApp"
             }
           }
         }
