@@ -30,10 +30,10 @@ spec:
       http:
         paths:
         {{- range .paths }}
-          - path: {{ . }}
+          - path: {{ .path }}
             backend:
-              serviceName: {{ $fullName }}
-              servicePort: http
+              serviceName: {{ $fullName }}{{ .backend }}
+              servicePort: 8181
         {{- end }}
   {{- end }}
 {{- end }}

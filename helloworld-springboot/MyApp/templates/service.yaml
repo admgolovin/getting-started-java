@@ -1,12 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "MyApp.fullname" . }}
+  name: {{ include "MyApp.fullname" . }}-blue
   labels:
     app.kubernetes.io/name: {{ include "MyApp.name" . }}
     helm.sh/chart: {{ include "MyApp.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+    DeploymentType: blue
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -15,6 +16,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: {{ include "MyApp.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    AppVersion: {{ .Values.release.number}}
+    DeploymentType: {{ .Values.image.tag}}

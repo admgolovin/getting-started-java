@@ -1,13 +1,14 @@
+{{ if .Values.blue.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "MyApp.fullname" . }}
+  name: {{ include "MyApp.fullname" . }}-blue
   labels:
     app.kubernetes.io/name: {{ include "MyApp.name" . }}
     helm.sh/chart: {{ include "MyApp.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-    AppVersion: {{ .Values.release.number}}
+    DeploymentType: blue
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -21,10 +22,11 @@ spec:
         app.kubernetes.io/name: {{ include "MyApp.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
         AppVersion: {{ .Values.release.number}}
+        DeploymentType: blue
     spec:
       containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        - name: {{ .Chart.Name }}-blue
+          image: "{{ .Values.image.repository }}:{{ .Values.image.deploy_blue }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ['sh', '-c', 'java -jar helloworld-springboot-0.0.1-SNAPSHOT.jar']
           ports:
@@ -53,3 +55,4 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+{{- end }}
