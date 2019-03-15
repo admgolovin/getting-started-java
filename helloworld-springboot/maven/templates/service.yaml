@@ -16,4 +16,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    DeploymentType: {{ .Values.image.tag}}
+    DeploymentType: {{ .Values.productionSlot}}

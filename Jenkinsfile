@@ -152,11 +152,34 @@ spec:
             }
 
             container('helm-cli'){
-              sh "ls -a"            
-              sh "env"
-              sh "cat getting-started-java/helloworld-springboot/MyApp/values.yaml"
-              sh "helm --help"
-              sh "helm install getting-started-java/helloworld-springboot/MyApp/"
+              script {
+                currentSlot = sh(script: "helm get values --all hello | grep 'productionSlot:' | cut -d ' ' -f2 | tr -d '[:space:]'", returnStdout: true).trim()
+                if (currentSlot == "blue") {
+                    newSlot="green"
+                    tagVar="deploy_green"
+                  } 
+                else if (currentSlot == "green") {
+                    newSlot="blue"
+                    tagVar="deploy_blue"
+                } 
+                else {
+                    sh "helm install -n maven maven --set deploy_blue=${revision},blue.enabled=true"
+                    return
+                  }
+                        
+                sh "helm upgrade maven maven --set ${tagVar}.tag=${revision},${newSlot}.enabled=true --reuse-values"
+                
+                userInput = input(message: 'Switch productionSlot? y\\n', parameters: [[$class: 'TextParameterDefinition', defaultValue: 'uat', description: 'Environment', name: 'env']])
+                        
+                if (userInput == "y") {
+                    sh "helm upgrade maven maven --set productionSlot=${newSlot} --reuse-values"
+                }
+                userInput = input(message: 'Delete old deployment? y\\n', parameters: [[$class: 'TextParameterDefinition', defaultValue: 'uat', description: 'Environment', name: 'env']])
+                
+                if (userInput == "y") {
+                    sh "helm upgrade hello maven --set ${currentSlot}.enabled=false --reuse-values"
+                  }
+              }
             }
           }
         }

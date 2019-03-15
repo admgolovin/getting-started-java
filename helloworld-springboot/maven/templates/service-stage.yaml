@@ -15,7 +15,7 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- if eq .Values.image.tag "blue"}}
+    {{- if eq .Values.productionSlot "blue"}}
     DeploymentType: green
     {{- else }}
     DeploymentType: blue
