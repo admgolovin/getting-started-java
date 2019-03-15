@@ -6,9 +6,9 @@ replicaCount: 1
 replicaCount2: 1
 
 blue: 
-  enabled: true
+  enabled: false
 green: 
-  enabled: true
+  enabled: false
 
 productionSlot: blue
 
