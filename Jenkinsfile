@@ -167,7 +167,7 @@ spec:
                     return
                   }
 
-                sh "ls maven getting-started-java/helloworld-springboot/maven/values.yaml"
+                sh "ls getting-started-java/helloworld-springboot/maven/values.yaml"
                         
                 sh "helm upgrade maven getting-started-java/helloworld-springboot/maven/ --set ${tagVar}=${revision},${newSlot}.enabled=true --reuse-values"
                 
