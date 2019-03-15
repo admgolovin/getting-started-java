@@ -143,13 +143,13 @@ spec:
               sh "ls -a"
             }
 
-            container ('envsubst') {
-              sh "env"
-              sh "ls -a"
-              sh "envsubst < getting-started-java/helloworld-springboot/MyApp/values.yaml > values.yaml"
-              sh "cat values.yaml"
-              sh "cp values.yaml getting-started-java/helloworld-springboot/MyApp/values.yaml"
-            }
+            // container ('envsubst') {
+            //   sh "env"
+            //   sh "ls -a"
+            //   sh "envsubst < getting-started-java/helloworld-springboot/MyApp/values.yaml > values.yaml"
+            //   sh "cat values.yaml"
+            //   sh "cp values.yaml getting-started-java/helloworld-springboot/MyApp/values.yaml"
+            // }
 
             container('helm-cli'){
               script {
