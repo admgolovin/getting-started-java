@@ -18,8 +18,8 @@ release:
 
 image:
   repository: 818353068367.dkr.ecr.eu-central-1.amazonaws.com/tony
-  deploy_blue: c3a97c9.20190311-1806
-  deploy_green: 2846620.20190312-1941
+  deploy_blue: 
+  deploy_green: 
   pullPolicy: IfNotPresent
 
 nameOverride: java-app
