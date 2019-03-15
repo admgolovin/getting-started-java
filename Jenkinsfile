@@ -156,18 +156,20 @@ spec:
                 currentSlot = sh(script: "helm get values --all maven | grep 'productionSlot:' | cut -d ' ' -f2 | tr -d '[:space:]'", returnStdout: true).trim()
                 if (currentSlot == "blue") {
                     newSlot="green"
-                    tagVar="deploy_green"
+                    tagVar="image.deploy_green"
                   } 
                 else if (currentSlot == "green") {
                     newSlot="blue"
-                    tagVar="deploy_blue"
+                    tagVar="image.deploy_blue"
                 } 
                 else {
-                    sh "helm install -n maven getting-started-java/helloworld-springboot/maven/ --set deploy_blue=${revision},blue.enabled=true"
+                    sh "helm install -n maven getting-started-java/helloworld-springboot/maven/ --set image.deploy_blue=${revision},blue.enabled=true"
                     return
                   }
+
+                sh "ls maven getting-started-java/helloworld-springboot/maven/values.yaml"
                         
-                sh "helm upgrade maven getting-started-java/helloworld-springboot/maven/ --set ${tagVar}.tag=${revision},${newSlot}.enabled=true --reuse-values"
+                sh "helm upgrade maven getting-started-java/helloworld-springboot/maven/ --set ${tagVar}=${revision},${newSlot}.enabled=true --reuse-values"
                 
                 userInput = input(message: 'Switch productionSlot? y\\n', parameters: [[$class: 'TextParameterDefinition', defaultValue: 'uat', description: 'Environment', name: 'env']])
                         
