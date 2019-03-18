@@ -1,0 +1,17 @@
+- apiVersion: autoscaling/v1
+  kind: HorizontalPodAutoscaler
+  metadata:
+    name: maven-java-app
+    namespace: default
+  spec:
+    maxReplicas: {{ .Vaules.autoscailing.maxReplicas }}
+    minReplicas: {{ .Vaules.autoscailing.minReplicas }}
+    scaleTargetRef:
+      apiVersion: extensions/v1beta1
+      kind: Deployment
+      {{- if .Values.productionSlot -eq "blue"}}
+      name: {{ deployment.metadata.name }}
+      {{- else }}
+      name: {{ deployment-green.metadata.name }}
+      {{- end }}
+    targetCPUUtilizationPercentage: {{ .Vaules.autoscailing.cpu }}
