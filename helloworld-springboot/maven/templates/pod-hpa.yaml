@@ -9,7 +9,7 @@
     scaleTargetRef:
       apiVersion: extensions/v1beta1
       kind: Deployment
-      {{- if .Values.productionSlot -eq "blue"}}
+      {{- if .Values.productionSlot eq "blue"}}
       name: {{ deployment.metadata.name }}
       {{- else }}
       name: {{ deployment-green.metadata.name }}
