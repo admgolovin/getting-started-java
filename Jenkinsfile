@@ -153,7 +153,7 @@ spec:
 
             container('helm-cli'){
               script {
-                currentSlot = sh(script: "helm get values --all maven | grep 'productionSlot:' | cut -d ' ' -f2 | tr -d '[:space:]'", returnStdout: true).trim()
+                currentSlot = sh(script: "helm get values --all maven | grep 'slot:' | cut -d ' ' -f2 | tr -d '[:space:]'", returnStdout: true).trim()
                 if (currentSlot == "blue") {
                     newSlot="green"
                     tagVar="image.deploy_green"
@@ -173,7 +173,7 @@ spec:
                 userInput = input(message: 'Switch productionSlot? y\\n', parameters: [[$class: 'TextParameterDefinition', defaultValue: 'uat', description: 'Environment', name: 'env']])
                         
                 if (userInput == "y") {
-                    sh "helm upgrade maven getting-started-java/helloworld-springboot/maven/ --set productionSlot=${newSlot} --reuse-values"
+                    sh "helm upgrade maven getting-started-java/helloworld-springboot/maven/ --set productionSlot.slot=${newSlot} --reuse-values"
                 }
                 userInput = input(message: 'Delete old deployment? y\\n', parameters: [[$class: 'TextParameterDefinition', defaultValue: 'uat', description: 'Environment', name: 'env']])
                 
