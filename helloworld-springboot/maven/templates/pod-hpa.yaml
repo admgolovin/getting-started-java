@@ -10,8 +10,8 @@
       apiVersion: extensions/v1beta1
       kind: Deployment
       {{- if .Values.productionSlot eq "blue"}}
-      name: {{ Deployment.metadata.name }}
+      name: {{ include "MyApp.fullname" . }}-blue
       {{- else }}
-      name: {{ Deployment-green.metadata.name }}
+      name: {{ include "MyApp.fullname" . }}-green
       {{- end }}
     targetCPUUtilizationPercentage: {{ .Vaules.autoscailing.cpu }}

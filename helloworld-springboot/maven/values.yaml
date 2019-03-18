@@ -74,3 +74,8 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+autoscailing:
+  maxReplicas: 2
+  minReplicas: 2
+  cpu: 80
