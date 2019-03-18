@@ -10,8 +10,8 @@
       apiVersion: extensions/v1beta1
       kind: Deployment
       {{- if .Values.productionSlot eq "blue"}}
-      name: {{ include maven.deployment.metadata.name }}
+      name: {{ include deployment.metadata.name }}
       {{- else }}
-      name: {{ include maven.deployment-green.metadata.name }}
+      name: {{ include deployment-green.metadata.name }}
       {{- end }}
     targetCPUUtilizationPercentage: {{ .Vaules.autoscailing.cpu }}
