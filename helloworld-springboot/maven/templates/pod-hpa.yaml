@@ -4,8 +4,8 @@
     name: maven-java-app
     namespace: default
   spec:
-    maxReplicas: {{ .Vaules.autoscailing.maxReplicas }}
-    minReplicas: {{ .Vaules.autoscailing.minReplicas }}
+    maxReplicas: {{ .Values.autoscailing.maxReplicas }}
+    minReplicas: {{ .Values.autoscailing.minReplicas }}
     scaleTargetRef:
       apiVersion: extensions/v1beta1
       kind: Deployment
@@ -14,4 +14,4 @@
       {{- else }}
       name: {{ include "MyApp.fullname" . }}-green
       {{- end }}
-    targetCPUUtilizationPercentage: {{ .Vaules.autoscailing.cpu }}
+    targetCPUUtilizationPercentage: {{ .Values.autoscailing.cpu }}

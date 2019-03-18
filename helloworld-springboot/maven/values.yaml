@@ -5,6 +5,12 @@
 replicaCount: 1
 replicaCount2: 1
 
+autoscailing:
+  maxReplicas: 2
+  minReplicas: 2
+  cpu: 80
+
+
 blue: 
   enabled: false
 green: 
@@ -74,8 +80,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-autoscailing:
-  maxReplicas: 2
-  minReplicas: 2
-  cpu: 80
