@@ -153,7 +153,7 @@ spec:
 
             container('helm-cli'){
               script {
-                currentSlot = sh(script: "helm get values --all maven | grep 'slot:' | cut -d ':' -f2 | sed s/' '//g", returnStdout: true).trim(), returnStdout: true).trim()
+                currentSlot = sh(script: "helm get values --all maven | grep 'slot:' | cut -d ':' -f2 | sed s/' '//g", returnStdout: true).trim()
                 if (currentSlot == "blue") {
                     newSlot="green"
                     tagVar="image.deploy_green"
