@@ -1,7 +1,6 @@
 # To launch configured jenkins-pod, please run this command:
 
-helm install -n jenkins-full ../jenkins/ --set Master.CredentialsXmlSecret=credentials.xml,Master.SecretsFilesSecret=hudson.util.Secret,Master.SecretsFilesSecret=master.key
-
+helm install -n full-jenkins jenkins/ --set Master.CredentialsXmlSecret=credentials.xml,Master.SecretsFilesSecret={hudson.util.Secret,master.key}
 
 Where:
    credentials.xml is your file from jenkins_home directory. This file is storing all credentials that you have been input in your Jenkins master pod.
