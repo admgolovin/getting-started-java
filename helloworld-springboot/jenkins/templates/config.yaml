@@ -17,7 +17,7 @@ data:
 {{ .Values.Master.AuthorizationStrategy | indent 6 }}
 {{- else }}
       <authorizationStrategy class="hudson.security.FullControlOnceLoggedInAuthorizationStrategy">
-        <denyAnonymousReadAccess>true</denyAnonymousReadAccess>
+        <denyAnonymousReadAccess>false</denyAnonymousReadAccess>
       </authorizationStrategy>
 {{- end }}
 {{- if .Values.Master.SecurityRealm }}

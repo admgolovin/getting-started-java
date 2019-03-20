@@ -98,8 +98,8 @@ Master:
   SlaveListenerPort: 50000
 #  SlaveHostPort: 50000
   DisabledAgentProtocols:
-    - JNLP-connect
-    - JNLP2-connect
+    - CLI1-connect
+    - CLI2-connect
   CSRF:
     DefaultCrumbIssuer:
       Enabled: true
