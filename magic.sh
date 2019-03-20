@@ -18,13 +18,10 @@ set CRUMB=$(cat crumb.txt)
 while ! [ -s $(pwd)/crumb.txt ]
 do
 curl 'http://admin:'$JENKINS_PASSWORD'@'$JENKINSHOST':8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)' > crumb.txt
-set CRUMB=$(head -n 1 $(pwd)/crumb.txt)
 echo $CRUMB
 sleep 1
 done
-echo $CRUMB
-echo "Your crumb is $CRUMB"
-set CRUMB=$(head -n 1 crumb.txt)
+CRUMB=$(head -n 1 crumb.txt)
 echo "Now your crumb is $CRUMB"
 echo "Please, insert your GIT username":
 read GIT_USER
