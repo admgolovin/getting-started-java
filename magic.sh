@@ -38,8 +38,8 @@ curl -H $CRUMB -X POST 'http://Anton:'$JENKINS_PASSWORD'@'$JENKINSHOST':8080/cre
   "credentials": {
     "scope": "GLOBAL",
     "id": "Anton-GitHub",
-    "username": $GIT_USER,
-    "password": $GIT_PASSWORD,
+    "username": "'$GIT_USER'",
+    "password": "'$GIT_PASSWORD'",
     "description": "Credentials from github",
     "$class": "com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl"
   }
@@ -51,8 +51,8 @@ curl -H $CRUMB -X POST 'http://Anton:'$JENKINS_PASSWORD'@'$JENKINSHOST':8080/cre
         "scope": "GLOBAL", 
         "id": "antons-aws", 
         "description": "Antons aws account settings", 
-        "accessKey": $AWS_ACCESS_KEY_ID, 
-        "secretKey": $AWS_SECRET_ACCESS_KEY, 
+        "accessKey": "'$AWS_ACCESS_KEY_ID'", 
+        "secretKey": "'$AWS_SECRET_ACCESS_KEY'", 
         "iamRoleArn": "", 
         "iamMfaSerialNumber": "", 
         "$class": "com.cloudbees.jenkins.plugins.awscredentials.AWSCredentialsImpl" 
