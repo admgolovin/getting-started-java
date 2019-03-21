@@ -114,8 +114,14 @@ spec:
             -
               mountPath: /var/jenkins_config
               name: jenkins-config
-            {{- if .Values.Master.CredentialsXmlSecret }}
+
+             {{- if .Values.Master.usersDatabase }}   
             -
+                mountPath: /var/jenkins_users/
+                name: jenkins-user
+            {{- end }}
+            {{- if .Values.Master.CredentialsXmlSecret }}
+            -      
               mountPath: /var/jenkins_credentials
               name: jenkins-credentials
               readOnly: true
@@ -245,6 +251,11 @@ spec:
               name: jenkins-credentials
               readOnly: true
             {{- end }}
+            {{- if .Values.Master.usersDatabase }}   
+            -
+                mountPath: /var/jenkins_users/
+                name: jenkins-user
+            {{- end }}
             {{- if .Values.Master.SecretsFilesSecret }}
             -
               mountPath: /var/jenkins_secrets
@@ -326,6 +337,9 @@ spec:
 {{- if .Values.Persistence.volumes }}
 {{ toYaml .Values.Persistence.volumes | indent 6 }}
 {{- end }}
+      - name: jenkins-user
+        configMap:
+          name: {{ template "jenkins.fullname" . }}-users
       - name: jenkins-config
         configMap:
           name: {{ template "jenkins.fullname" . }}

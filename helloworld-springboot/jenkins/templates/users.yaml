@@ -1,0 +1,8 @@
+{{- if .Values.Master.usersDatabase }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "jenkins.fullname" . }}-users
+data:
+{{ toYaml .Values.Master.usersDatabase | indent 2 }}
+{{- end -}}

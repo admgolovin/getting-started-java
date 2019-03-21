@@ -223,6 +223,7 @@ data:
     echo "false" > /usr/share/jenkins/ref/secrets/slave-to-master-security-kill-switch;
 {{- if .Values.Master.OverwriteConfig }}
     cp /var/jenkins_config/config.xml /var/jenkins_home;
+    cp /var/jenkins_users/users.xml /var/jenkins_home;
     cp /var/jenkins_config/jenkins.CLI.xml /var/jenkins_home;
     cp /var/jenkins_config/jenkins.model.JenkinsLocationConfiguration.xml /var/jenkins_home;
   {{- else }}
@@ -283,6 +284,12 @@ data:
       mkdir -p /var/jenkins_home/jobs/$job
       yes n | cp -i /var/jenkins_jobs/$job /var/jenkins_home/jobs/$job/config.xml
     done
+{{- end }} 
+{{- if .Values.Master.usersDatabase }}
+    # Change folder name according to your users.xml file
+    mkdir -p /var/jenkins_home/users/Anton_4569210766872488241;
+    yes n | cp -i  /var/jenkins_users/config.xml /var/jenkins_home/users/Anton_4569210766872488241/;
+    yes n | cp -i /var/jenkins_users/users.xml /var/jenkins_home/users/;
 {{- end }}
 {{- range $key, $val := .Values.Master.InitScripts }}
   init{{ $key }}.groovy: |-

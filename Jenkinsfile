@@ -40,6 +40,15 @@ spec:
     volumeMounts:
     - name: repository
       mountPath: /root/.m2/repository
+  - name: helm-cli
+    image: linkyard/docker-helm
+    command: ["cat"]
+    tty: true
+    resources:
+      limits:
+        ephemeral-storage: "2Gi"
+      requests:
+        ephemeral-storage: "100Mi"
   - name: docker
     image: docker:18.09.2
     command: ["cat"]
@@ -107,50 +116,7 @@ spec:
             }
         }
         stage ('Deploy artifact to production'){
-          agent{
-            kubernetes{
-              label 'helm-chart-pod'
-              defaultContainer 'jnlp'
-              yaml """
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    job: deploy-service
-spec:
-  containers:
-  - name: git
-    image: alpine/git
-    command: ["cat"]
-    tty: true
-  - name: helm-cli
-    image: linkyard/docker-helm
-    command: ["cat"]
-    tty: true
-  - name: envsubst
-    image: bhgedigital/envsubst
-    command: ["cat"]
-    tty: true
-    env:
-    - name: rnumber
-      value: ${revision}
-"""
-          }
-        }
           steps{
-            container('git'){
-              sh "git clone https://github.com/admgolovin/getting-started-java"
-              sh "ls -a"
-            }
-
-            // container ('envsubst') {
-            //   sh "env"
-            //   sh "ls -a"
-            //   sh "envsubst < getting-started-java/helloworld-springboot/MyApp/values.yaml > values.yaml"
-            //   sh "cat values.yaml"
-            //   sh "cp values.yaml getting-started-java/helloworld-springboot/MyApp/values.yaml"
-            // }
-
             container('helm-cli'){
               script {
                 currentSlot = sh(script: "helm get values --all maven | grep 'slot:' | cut -d ':' -f2 | sed s/' '//g", returnStdout: true).trim()

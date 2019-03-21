@@ -18,7 +18,83 @@ Master:
   NumExecutors: 0
   # configAutoReload requires UseSecurity is set to true:
   UseSecurity: true
-  # SecurityRealm:
+  SecurityRealm:
+    <securityRealm class="hudson.security.HudsonPrivateSecurityRealm">
+      <disableSignup>true</disableSignup>
+      <enableCaptcha>false</enableCaptcha>
+    </securityRealm>
+  # usersDatabase:
+  # Optionaly configure Users in jenkins user database
+  # users - xml file with user folder description
+  # config - config.xml for current user
+  # All this files you can find in /var/jenkins_home/users - this 
+  # is the local database folder.
+  # Be attentive - this template will copy config.xml file of my user to
+  # proper folder for my user - $JENKINS_HOME/users/Anton_4569210766872488241
+  # You need to change folder name according to your users.xml config: 
+  # Find usersDatabase section in config.yaml file for customization.
+  usersDatabase:
+    users.xml: |-
+      <?xml version='1.1' encoding='UTF-8'?>
+      <hudson.model.UserIdMapper>
+        <version>1</version>
+        <idToDirectoryNameMap class="concurrent-hash-map">
+          <entry>
+            <string>anton</string>
+            <string>Anton_4569210766872488241</string>
+          </entry>
+        </idToDirectoryNameMap>
+    config.xml: |-
+      <?xml version='1.1' encoding='UTF-8'?>
+      <user>
+        <version>10</version>
+        <id>Anton</id>
+        <fullName>Anton Holovin</fullName>
+        <properties>
+          <jenkins.security.ApiTokenProperty>
+            <tokenStore>
+              <tokenList/>
+            </tokenStore>
+          </jenkins.security.ApiTokenProperty>
+          <com.cloudbees.plugins.credentials.UserCredentialsProvider_-UserCredentialsProperty plugin="credentials@2.1.18">
+            <domainCredentialsMap class="hudson.util.CopyOnWriteMap$Hash"/>
+          </com.cloudbees.plugins.credentials.UserCredentialsProvider_-UserCredentialsProperty>
+          <hudson.model.MyViewsProperty>
+            <views>
+              <hudson.model.AllView>
+                <owner class="hudson.model.MyViewsProperty" reference="../../.."/>
+                <name>all</name>
+                <filterExecutors>false</filterExecutors>
+                <filterQueue>false</filterQueue>
+                <properties class="hudson.model.View$PropertyList"/>
+              </hudson.model.AllView>
+            </views>
+          </hudson.model.MyViewsProperty>
+          <org.jenkinsci.plugins.displayurlapi.user.PreferredProviderUserProperty plugin="display-url-api@2.3.0">
+            <providerId>default</providerId>
+          </org.jenkinsci.plugins.displayurlapi.user.PreferredProviderUserProperty>
+          <hudson.model.PaneStatusProperties>
+            <collapsed/>
+          </hudson.model.PaneStatusProperties>
+          <jenkins.security.seed.UserSeedProperty>
+            <seed>56f37ff23401ed82</seed>
+          </jenkins.security.seed.UserSeedProperty>
+          <hudson.search.UserSearchProperty>
+            <insensitiveSearch>true</insensitiveSearch>
+          </hudson.search.UserSearchProperty>
+          <hudson.security.HudsonPrivateSecurityRealm_-Details>
+            <passwordHash>#jbcrypt:$2a$10$Eb5ubVcpWTEXHQ4gCM2aj.UqGjm68yyiN5LO0x9gYanUUaa/A/csO</passwordHash>
+          </hudson.security.HudsonPrivateSecurityRealm_-Details>
+          <hudson.tasks.Mailer_-UserProperty plugin="mailer@1.23">
+            <emailAddress>adm.golovin@gmail.com</emailAddress>
+          </hudson.tasks.Mailer_-UserProperty>
+          <jenkins.security.LastGrantedAuthoritiesProperty>
+            <roles>
+              <string>authenticated</string>
+            </roles>
+            <timestamp>1553177674290</timestamp>
+          </jenkins.security.LastGrantedAuthoritiesProperty>
+        </properties>
   # Optionally configure a different AuthorizationStrategy using Jenkins XML
   # AuthorizationStrategy: |-
   #    <authorizationStrategy class="hudson.security.FullControlOnceLoggedInAuthorizationStrategy">
@@ -32,7 +108,7 @@ Master:
   # additional rights.  Failure to do this will cause the sidecar container to fail to authenticate via SSH and enter
   # a restart loop.  Likewise if you disable the non-Jenkins identity store and instead use the Jenkins internal one,
   # you should revert Master.AdminUser to your preferred admin user:
-  AdminUser: admin
+  AdminUser: Anton
   # AdminPassword: <defaults to random>
   AdminPassword: Perform2018
   OwnSshKey: false
@@ -98,8 +174,6 @@ Master:
   SlaveListenerPort: 50000
 #  SlaveHostPort: 50000
   DisabledAgentProtocols:
-    - CLI1-connect
-    - CLI2-connect
   CSRF:
     DefaultCrumbIssuer:
       Enabled: true
@@ -234,6 +308,10 @@ Master:
   # master.key and hudson.util.Secret)
   # SecretsFilesSecret: jenkins-secrets
   # Jenkins XML job configs to provision
+  # SecretsFilesSecret:
+  #   hudson.util.Secret: -|
+
+  #   master.key: -|
   # Jobs:
   #   test: |-
   #     <<xml here>>
