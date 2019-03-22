@@ -128,22 +128,22 @@ spec:
                     tagVar="image.deploy_blue"
                 } 
                 else {
-                    sh "helm install -n maven getting-started-java/helloworld-springboot/maven/ --set image.deploy_blue=${revision},blue.enabled=true"
+                    sh "helm install -n maven /home/jenkins/workspace/Java-app/helloworld-springboot/maven/ --set image.deploy_blue=${revision},blue.enabled=true"
                     return
                   }
-                sh "ls getting-started-java/helloworld-springboot/maven/values.yaml"
+                sh "ls /home/jenkins/workspace/Java-app/helloworld-springboot/maven/values.yaml"
                         
-                sh "helm upgrade maven getting-started-java/helloworld-springboot/maven/ --set ${tagVar}=${revision},${newSlot}.enabled=true --reuse-values"
+                sh "helm upgrade maven /home/jenkins/workspace/Java-app/helloworld-springboot/maven/ --set ${tagVar}=${revision},${newSlot}.enabled=true --reuse-values"
                 
                 userInput = input(message: 'Switch productionSlot? y\\n', parameters: [[$class: 'TextParameterDefinition', defaultValue: 'uat', description: 'Environment', name: 'env']])
                         
                 if (userInput == "y") {
-                    sh "helm upgrade maven getting-started-java/helloworld-springboot/maven/ --set productionSlot.slot=${newSlot} --reuse-values"
+                    sh "helm upgrade maven /home/jenkins/workspace/Java-app/helloworld-springboot/maven/ --set productionSlot.slot=${newSlot} --reuse-values"
                 }
                 userInput = input(message: 'Delete old deployment? y\\n', parameters: [[$class: 'TextParameterDefinition', defaultValue: 'uat', description: 'Environment', name: 'env']])
                 
                 if (userInput == "y") {
-                    sh "helm upgrade maven getting-started-java/helloworld-springboot/maven/ --set ${currentSlot}.enabled=false --reuse-values"
+                    sh "helm upgrade maven /home/jenkins/workspace/Java-app/helloworld-springboot/maven/ --set ${currentSlot}.enabled=false --reuse-values"
                   }
               }
             }
