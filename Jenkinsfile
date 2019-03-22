@@ -109,11 +109,11 @@ spec:
                 }
             }
         }
-        stage ('clean workspace'){
-            steps{
-                cleanWs()
-            }
-        }
+        // stage ('clean workspace'){
+        //     steps{
+        //         cleanWs()
+        //     }
+        // }
         stage ('Deploy artifact to production'){
           steps{
             container('helm-cli'){
