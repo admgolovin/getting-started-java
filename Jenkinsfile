@@ -77,8 +77,7 @@ spec:
     }
 
 
-    stages ('Tests'){
-
+    stages ('Tests') {
         stage ('checkout') {
             steps{
                 script{
