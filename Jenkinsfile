@@ -6,7 +6,7 @@ pipeline {
 
     agent {
         kubernetes {
-            label 'build-service-pod'
+            label 'build-service-pod-java'
             yaml """
 apiVersion: v1
 kind: Pod
@@ -28,10 +28,6 @@ spec:
         ephemeral-storage: "100Mi"
       limits:
         ephemeral-storage: "2Gi"
-  - name: hugo
-    image: ubuntu
-    command: ["cat"]
-    tty: true
   - name: maven
     image: maven:3.6-jdk-8-slim
     command: ["cat"]
