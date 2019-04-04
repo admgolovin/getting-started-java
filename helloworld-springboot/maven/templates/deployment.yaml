@@ -25,6 +25,14 @@ spec:
         DeploymentType: blue
     spec:
       containers:
+        - image: golang:stretch
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          name: prometheus-agent
+          command: ["sh", "-c", "tail -f /dev/null", "go get github.com/prometheus/node_exporter", "cd ${GOPATH-$HOME/go}/src/github.com/prometheus/node_exporter", "make", "./node_exporter"]
+          ports:
+          - containerPort: 9100
+            name: http
+            protocol: TCP
         - name: {{ .Chart.Name }}-blue
           image: "{{ .Values.image.repository }}:{{ .Values.image.deploy_blue }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}

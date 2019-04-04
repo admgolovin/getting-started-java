@@ -80,7 +80,7 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-nodeSelector: {}
+nodeSelector: {kubernetes.io/hostname=ip-10-240-0-242}
 
 tolerations: []
 
