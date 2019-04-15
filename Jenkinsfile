@@ -104,6 +104,8 @@ spec:
                         sh "docker build . -t ${registryIp}:${revision} --build-arg REVISION=${revision}"
                         docker.withRegistry("https://818353068367.dkr.ecr.eu-central-1.amazonaws.com", "ecr:eu-central-1:antons-aws") {
                             sh "docker push ${registryIp}:${revision}"
+                        sh 'echo buildNumber=${revision} > build.properties'
+                        sh 'echo registryIp=818353068367.dkr.ecr.eu-central-1.amazonaws.com/tony > build.properties'
                         }   
                     }
                 }
@@ -114,14 +116,10 @@ spec:
         //         cleanWs()
         //     }
         // }
-        stage ('Deploy artifact to production'){
-          steps{
-            script{
-              sh 'echo buildNumber=${revision} > build.properties'
-              sh 'echo registryIp=818353068367.dkr.ecr.eu-central-1.amazonaws.com/tony > build.properties'
-              archiveArtifacts artifacts build.properties
-            }
-          }
-        }   
+       post {
+        always {
+            archiveArtifacts artifacts: 'build.properties'
+        }
+      }
     }
 }
