@@ -116,38 +116,9 @@ spec:
         // }
         stage ('Deploy artifact to production'){
           steps{
-            container('helm-cli'){
-              script {
-                currentSlot = sh(script: "helm get values --all maven | grep 'slot:' | cut -d ':' -f2 | sed s/' '//g", returnStdout: true).trim()
-                if (currentSlot == "blue") {
-                    newSlot="green"
-                    tagVar="image.deploy_green"
-                  } 
-                else if (currentSlot == "green") {
-                    newSlot="blue"
-                    tagVar="image.deploy_blue"
-                } 
-                else {
-                    sh "helm install -n maven /home/jenkins/workspace/Java-app/helloworld-springboot/maven/ --set image.deploy_blue=${revision},blue.enabled=true"
-                    return
-                  }
-                sh "ls /home/jenkins/workspace/Java-app/helloworld-springboot/maven/values.yaml"
-                        
-                sh "helm upgrade maven /home/jenkins/workspace/Java-app/helloworld-springboot/maven/ --set ${tagVar}=${revision},${newSlot}.enabled=true --reuse-values"
-                
-                userInput = input(message: 'Switch productionSlot? y\\n', parameters: [[$class: 'TextParameterDefinition', defaultValue: 'uat', description: 'Environment', name: 'env']])
-                        
-                if (userInput == "y") {
-                    sh "helm upgrade maven /home/jenkins/workspace/Java-app/helloworld-springboot/maven/ --set productionSlot.slot=${newSlot} --reuse-values"
-                }
-                userInput = input(message: 'Delete old deployment? y\\n', parameters: [[$class: 'TextParameterDefinition', defaultValue: 'uat', description: 'Environment', name: 'env']])
-                
-                if (userInput == "y") {
-                    sh "helm upgrade maven /home/jenkins/workspace/Java-app/helloworld-springboot/maven/ --set ${currentSlot}.enabled=false --reuse-values"
-                  }
-              }
+            {
+                sh 'echo buildNumber=${revision} > build.properties'
+                sh 'echo registryIp=818353068367.dkr.ecr.eu-central-1.amazonaws.com/tony > build.properties'
+                archiveArtifacts
             }
-          }
-        }
-    }
-}
+            
