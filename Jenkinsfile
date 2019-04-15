@@ -116,10 +116,10 @@ spec:
         // }
         stage ('Deploy artifact to production'){
           steps{
-            {
-                sh 'echo buildNumber=${revision} > build.properties'
-                sh 'echo registryIp=818353068367.dkr.ecr.eu-central-1.amazonaws.com/tony > build.properties'
-                archiveArtifacts
+            script{
+              sh 'echo buildNumber=${revision} > build.properties'
+              sh 'echo registryIp=818353068367.dkr.ecr.eu-central-1.amazonaws.com/tony > build.properties'
+              archiveArtifacts
             }
           }
         }   
