@@ -117,10 +117,10 @@ spec:
         //         cleanWs()
         //     }
         // }
+    }
     post {
         always {
             archiveArtifacts artifacts: 'build.properties'
           }
         }
-    }
 }
