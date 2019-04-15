@@ -121,4 +121,7 @@ spec:
                 sh 'echo registryIp=818353068367.dkr.ecr.eu-central-1.amazonaws.com/tony > build.properties'
                 archiveArtifacts
             }
-            
+          }
+        }   
+    }
+}
