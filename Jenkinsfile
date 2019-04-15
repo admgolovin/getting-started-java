@@ -106,6 +106,7 @@ spec:
                             sh "docker push ${registryIp}:${revision}"
                         sh 'echo buildNumber=${revision} > build.properties'
                         sh 'echo registryIp=818353068367.dkr.ecr.eu-central-1.amazonaws.com/tony > build.properties'
+                        archiveArtifacts 'build.properties'
                         }   
                     }
                 }
@@ -116,10 +117,10 @@ spec:
         //         cleanWs()
         //     }
         // }
-       post {
-        always {
-            archiveArtifacts artifacts: 'build.properties'
+        post {
+            always {
+                archiveArtifacts artifacts: 'build.properties'
+            }
         }
-      }
     }
 }
