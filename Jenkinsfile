@@ -104,9 +104,8 @@ spec:
                         sh "docker build . -t ${registryIp}:${revision} --build-arg REVISION=${revision}"
                         docker.withRegistry("https://818353068367.dkr.ecr.eu-central-1.amazonaws.com", "ecr:eu-central-1:antons-aws") {
                             sh "docker push ${registryIp}:${revision}"
-                        sh 'echo registryIp=818353068367.dkr.ecr.eu-central-1.amazonaws.com/tony > build.properties'
-                        sh 'echo buildNumber=${revision} >> build.properties'
-                        archiveArtifacts 'build.properties'
+                        sh "echo registryIp=818353068367.dkr.ecr.eu-central-1.amazonaws.com/tony > build.properties"
+                        sh "echo buildNumber=${revision} >> build.properties"
                         }   
                     }
                 }
